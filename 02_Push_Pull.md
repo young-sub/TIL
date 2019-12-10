@@ -48,3 +48,15 @@ $ git pull origin master
 $ git diff
 ```
 
+- 파일 만들기 `touch` 
+
+```shell
+touch 파일명
+```
+
+- 현재 폴더(.) 에서 비주얼 스튜디오 불러오기 `code .`
+
+```shell
+code .
+```
+
