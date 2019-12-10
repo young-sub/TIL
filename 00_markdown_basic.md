@@ -72,7 +72,7 @@
 
 - 링크
 
-  [네이버](www.naver.com "test 용")
+  [네이버](https://www.naver.com "test 용")
 
 
 
