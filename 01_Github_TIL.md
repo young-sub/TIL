@@ -44,9 +44,11 @@ $ git commit -m "커밋 메세지"
 
 - Github 원격(remote) 저장소(repository)를 생성하고 `TIL` 폴더와 연결한다.
 - 새로운 원격 저장소가 추가될 때만 입력한다.
+- `git remote -v`  연결된 원격 저장소 확인
 
 ```shell
 $ git remote add origin (github 원격 저장소 주소)
+$ git remote -v
 ```
 
 
