@@ -20,31 +20,53 @@ def telegram():
     chat_id = from_telegram.get("message").get("from").get('id')
     text = from_telegram.get("message").get("text")
 
-
-    if from_telegram.get("message").get('photo') is not None:
-        #1. 파일의 아이디를 가져온다.
-        file_id = from_telegram.get("message").get('photo')[-1].get('file_id')
-        #2. 가져온 파일 아이디로 실제 파일을 가져온다.
+    if from_telegram.get('message').get('photo') is not None:
+        # 클로바 코드 요기에 작성!
+        # 1. 우선 파일의 아이디 값을 가져온다.
+        file_id = from_telegram.get('message')\
+            .get('photo')[-1]\
+            .get('file_id')
+        # 2. 가져온 파일 아이디로 실제 파일을 가져온다.
         file_res = requests.get(f'{app_url}/getFile?file_id={file_id}')
-        #3. 파일 path를 뽑아내서 저장
+        # 3. file path를 뽑아내서 저장
         file_path = file_res.json().get('result').get('file_path')
-        #4. 해당 파일의 경로를 찾아서 저장
-        file_url = f'{app_url}/file/bot/{token}/{file_path}'
-
-        #5. 사진(파일)이 있는 주소로 요청을 보내서 가져오기
         
+        # 4. 최종적으로 해당 파일의 경로를 찾아서 저장
+        file_url = f'https://api.telegram.org/file/bot{token}/{file_path}'
+        # 5. 사진(파일)이 있는 주소로 요청을 보내서 가져오자!
+        real_file_res = requests.get(file_url, stream=True)
 
- 
+        headers = {
+            'X-Naver-Client-Id': client_id,
+            'X-Naver-Client-Secret': client_secret
+        }
+        clova_res = requests.post(
+            'https://openapi.naver.com/v1/vision/celebrity',
+            headers = headers,
+            files = {
+                'image': real_file_res.raw.read()
+            }
+        )
+        
+        # 닮은 유명인의 수가 있을 경우!
+        if clova_res.json().get('info').get('faceCount'):
+            celebrity = clova_res.json()\
+                .get('faces')[0]\
+                .get('celebrity')
+            reply = f"{celebrity.get('value')}-{celebrity.get('confidence')*100}%"
+        else:
+            reply = '인식된 사람이 없습니다.'
+
     else :
         # 키워드 텍스트가 왔을 때 실행
-        # /lotto라고 입력하면 번호 출력하기 아니면 echo
+        # /lotto라고 입력하면 번호 출력하기
         if text == "/lotto" :
             reply = random.sample(range(1,46),6)
             reply.sort()
 
             # 파파고 번역 (POST방식)
             #/번역 번역할문장
-        if text[0:4] == "/번역 " :
+        elif text[0:4] == "/번역 " :
             headers = {
                 "X-Naver-Client-Id" : client_id,
                 "X-Naver-Client-Secret" : client_secret
