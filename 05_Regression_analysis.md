@@ -115,3 +115,9 @@ dwtest(m)
   - 전혀 관계가 없는 경우 결정 계는 VIF≒1(1에 가까워진다.)
   - 5<VIF<10이면 다중공선성 의심하고 VIF>10이면 다중공선성 심각한 것으로 판단한다.
 
+
+
+### (7) 통계분석기법의 선택 
+
+![selection](https://user-images.githubusercontent.com/57510026/70955407-1fec3f80-20b4-11ea-88a7-156c70262d36.jpg)
+
