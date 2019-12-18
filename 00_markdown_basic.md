@@ -109,3 +109,5 @@
 &#128513;
 
 &#10005;
+
+- [Typora 단축키](https://support.typora.io/Shortcut-Keys/)
